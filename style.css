@@ -1292,98 +1292,170 @@ body {
 
 /* ================= INSTAGRAM STORY CARD SHARE MODAL (RETRO PIXELATED) ================= */
 .story-card-modal {
-  max-width: 360px;
-  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  padding: 14px 10px;
   background: transparent;
   box-shadow: none;
   border: none;
+  position: relative;
+}
+
+.story-card-modal .close-modal-btn {
+  position: absolute;
+  top: 4px;
+  right: 14px;
+  z-index: 25;
+  background: #ffffff;
+  border: 2px solid #1a1a1a;
+  border-radius: 0px;
+  box-shadow: 2px 2px 0px #1a1a1a;
+  width: 34px;
+  height: 34px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.story-card-modal .close-modal-btn:hover {
+  background: #fef08a;
+  transform: translate(-1px, -1px);
+}
+
+.story-card-modal .close-modal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #1a1a1a;
 }
 
 .story-preview-wrapper {
-  background: #111827;
-  border: 4px solid #1a1a1a;
+  background: #0f172a;
+  border: 5px solid #1a1a1a;
   border-radius: 0px;
-  padding: 20px 16px;
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4), inset 2px 2px 0px #ffffff, inset -2px -2px 0px #374151;
+  padding: 36px 26px 28px 26px;
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.45), inset 3px 3px 0px #ffffff, inset -3px -3px 0px #334155;
   color: #fff;
   text-align: center;
   position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.story-card-bg {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .story-toad-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: #0070d2;
-  border: 2px solid #ffffff;
+  border: 3px solid #ffffff;
   border-radius: 0px;
-  padding: 6px 12px;
+  padding: 8px 18px;
   font-family: var(--font-pixel);
-  font-size: 0.65rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  margin-bottom: 14px;
-  box-shadow: 3px 3px 0px #000000;
+  margin-bottom: 22px;
+  box-shadow: 4px 4px 0px #000000;
 }
 
 .story-toad-badge img {
-  width: 24px;
-  height: 24px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
 
 .story-prompt-pill {
+  width: 100%;
   background: #ffffff;
   color: #e71e28;
   font-family: var(--font-pixel);
-  font-size: 0.6rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  padding: 8px 10px;
-  border: 2px solid #1a1a1a;
+  padding: 13px 18px;
+  border: 3px solid #1a1a1a;
   border-radius: 0px;
-  margin-bottom: 14px;
-  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
-  line-height: 1.4;
+  margin-bottom: 22px;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.35);
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+  word-break: break-word;
 }
 
 .story-message-box {
+  width: 100%;
   background: #ffffff;
   color: #1a1a1a;
-  border: 3px solid #1a1a1a;
+  border: 4px solid #1a1a1a;
   border-radius: 0px;
-  padding: 16px 12px;
+  padding: 26px 20px;
   font-family: var(--font-pixel);
-  font-size: 0.68rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  line-height: 1.6;
-  margin-bottom: 14px;
-  min-height: 90px;
+  line-height: 1.7;
+  margin-bottom: 22px;
+  min-height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.35);
   word-break: break-word;
+}
+
+.story-message-box p {
+  width: 100%;
+  margin: 0;
+  line-height: 1.7;
+  white-space: pre-wrap;
 }
 
 .story-watermark {
   font-family: var(--font-pixel);
-  font-size: 0.5rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   color: #fde047;
+  margin-top: 4px;
 }
 
 .story-actions {
-  margin-top: 16px;
+  margin-top: 18px;
+  width: 100%;
 }
 
 .story-actions .action-btn {
   font-family: var(--font-pixel);
-  font-size: 0.68rem;
+  font-size: 0.78rem;
+  padding: 14px 22px;
   border-radius: 0px;
   border: 3px solid #1a1a1a;
   box-shadow: 4px 4px 0px #1a1a1a;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.story-actions .action-btn:hover {
+  background: #ff5252;
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #1a1a1a;
+}
+
+.story-actions .action-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1a1a1a;
 }
 
 /* ================= TOAST NOTIFICATIONS ================= */
@@ -1472,6 +1544,49 @@ body {
   .submit-btn {
     font-size: 1.15rem;
     padding: 13px 20px;
+  }
+
+  .story-card-modal {
+    max-width: 100%;
+    padding: 10px 4px;
+  }
+  
+  .story-preview-wrapper {
+    padding: 26px 16px 22px 16px;
+    min-height: 330px;
+  }
+  
+  .story-toad-badge {
+    font-size: 0.7rem;
+    padding: 6px 14px;
+    margin-bottom: 18px;
+  }
+  
+  .story-toad-badge img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .story-prompt-pill {
+    font-size: 0.68rem;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+  }
+  
+  .story-message-box {
+    font-size: 0.8rem;
+    padding: 20px 14px;
+    min-height: 130px;
+    margin-bottom: 18px;
+  }
+  
+  .story-watermark {
+    font-size: 0.54rem;
+  }
+  
+  .story-actions .action-btn {
+    font-size: 0.72rem;
+    padding: 12px 16px;
   }
 }
 
