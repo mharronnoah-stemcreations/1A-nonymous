@@ -302,9 +302,6 @@ soundToggleBtn.addEventListener('click', () => {
 // ================= MASCOT INTERACTIONS =================
 toadAvatar.addEventListener('click', () => {
   audio.playJump();
-  toadImg.style.animation = 'none';
-  void toadImg.offsetWidth;
-  toadImg.style.animation = 'toadJump 0.6s ease';
 
   // Change quote randomly
   const randomQuote = TOAD_QUOTES[Math.floor(Math.random() * TOAD_QUOTES.length)];

@@ -271,13 +271,7 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
-  animation: toadFloat 3.2s ease-in-out infinite;
-  transform-origin: center bottom;
   user-select: none;
-}
-
-.toad-wrapper:hover .toad-img {
-  animation: toadWave 0.6s ease-in-out infinite alternate;
 }
 
 .toad-shadow {
@@ -287,7 +281,6 @@ body {
   border-radius: 50%;
   margin-top: -6px;
   filter: blur(3px);
-  animation: shadowPulse 3.2s ease-in-out infinite;
 }
 
 .toad-click-hint {
@@ -308,28 +301,6 @@ body {
 
 .toad-wrapper:hover .toad-click-hint {
   opacity: 1;
-}
-
-@keyframes toadFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(-1.5deg); }
-}
-
-@keyframes toadWave {
-  0% { transform: translateY(-4px) rotate(-3deg) scale(1.03); }
-  100% { transform: translateY(-10px) rotate(4deg) scale(1.05); }
-}
-
-@keyframes toadJump {
-  0% { transform: translateY(0) scale(1); }
-  35% { transform: translateY(-24px) scale(1.15) rotate(8deg); }
-  70% { transform: translateY(-12px) scale(1.08) rotate(-6deg); }
-  100% { transform: translateY(0) scale(1) rotate(0deg); }
-}
-
-@keyframes shadowPulse {
-  0%, 100% { transform: scale(1); opacity: 0.25; }
-  50% { transform: scale(0.85); opacity: 0.12; }
 }
 
 /* Toad Speech Bubble with Comic Thought Balloon (Flipped Horizontally) */
@@ -757,7 +728,6 @@ body {
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  animation: toadWave 0.5s alternate infinite ease-in-out;
 }
 
 .success-title {
