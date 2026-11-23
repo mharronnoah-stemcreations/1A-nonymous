@@ -1,0 +1,12 @@
+{
+  "name": "1a-nonymous",
+  "version": "1.0.0",
+  "description": "NGL-style anonymous messaging website featuring Toad mascot and Mario kingdom theme, connected to Supabase.",
+  "scripts": {
+    "start": "npx serve -l 3000",
+    "dev": "npx serve -l 3000"
+  },
+  "keywords": ["ngl", "anonymous", "toad", "supabase"],
+  "author": "",
+  "license": "MIT"
+}

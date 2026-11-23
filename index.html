@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>1A-nonymous | Send Toad a Secret Note</title>
+  <meta name="description" content="Send anonymous messages to Toad and 1A! 100% safe, secret, and private.">
+  <link rel="icon" href="mga_imahe/pixel-toad.png" type="image/png">
+  
+  <!-- Google Fonts: Fredoka & Outfit for authentic modern NGL look with playful charm -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase JS Client via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Canvas Confetti for celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Background Ambience & floating particles -->
+  <div class="background-overlay"></div>
+  <div class="sky-particles" id="sky-particles"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <span class="brand-badge">1A-nonymous</span>
+      <span class="ngl-tag">ngl.toad</span>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="sound-toggle-btn" title="Toggle Sound Effects" aria-label="Toggle Sound">
+        <span id="sound-icon-container">
+          <!-- Unmuted Speaker SVG -->
+          <svg class="svg-icon" id="sound-on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <!-- Muted Speaker SVG (hidden by default) -->
+          <svg class="svg-icon hidden" id="sound-off-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </span>
+      </button>
+      <button class="nav-tab-btn active" id="tab-send-btn">
+        <span>Send</span>
+      </button>
+      <button class="nav-tab-btn" id="tab-inbox-btn">
+        <span>Inbox</span>
+        <span class="inbox-badge" id="inbox-count">0</span>
+      </button>
+      <button class="icon-btn settings-btn" id="open-credits-btn" title="Credits" aria-label="Credits">
+        <svg class="svg-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- ================= SEND MESSAGE VIEW ================= -->
+    <section class="card-view active" id="send-view">
+      
+      <!-- Mascot Container -->
+      <div class="mascot-section">
+        <div class="toad-wrapper" id="toad-avatar" title="Click me for a surprise!">
+          <img src="mga_imahe/pixel-toad.png" alt="Toad Mascot" class="toad-img" id="toad-img">
+          <div class="toad-shadow"></div>
+          <span class="toad-click-hint">Tap me!</span>
+        </div>
+        
+        <!-- Speech Bubble from Toad -->
+        <div class="toad-speech-bubble" id="toad-speech">
+          <img src="mga_imahe/toad-bubble-flipped.png" alt="Toad Speech Bubble" class="toad-bubble-img" draggable="false" />
+          <div class="toad-bubble-content">
+            <span class="speech-quote" id="speech-quote">Psst! Tell me anything! Your secret is 100% safe with me!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NGL Card Container -->
+      <div class="ngl-card">
+        
+        <!-- Card Header with Recipient & Dice Prompt -->
+        <div class="card-header">
+          <div class="profile-info">
+            <span class="profile-handle">@toad_1a</span>
+            <span class="verified-badge" title="Verified Toad">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+          </div>
+          
+          <button class="dice-btn" id="dice-roll-btn" title="Shuffle prompt questions">
+            <span class="dice-icon-wrapper" id="dice-icon">
+              <!-- SVG Dice Icon -->
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="4" ry="4"></rect>
+                <circle cx="8" cy="8" r="1.5" fill="currentColor"></circle>
+                <circle cx="16" cy="8" r="1.5" fill="currentColor"></circle>
+                <circle cx="12" cy="12" r="1.5" fill="currentColor"></circle>
+                <circle cx="8" cy="16" r="1.5" fill="currentColor"></circle>
+                <circle cx="16" cy="16" r="1.5" fill="currentColor"></circle>
+              </svg>
+            </span>
+            <span class="dice-label">dice</span>
+          </button>
+        </div>
+
+        <!-- Current Prompt Display -->
+        <div class="prompt-display-box" id="prompt-box">
+          <p class="current-prompt" id="current-prompt-text">Send me anonymous messages!</p>
+        </div>
+
+        <!-- Form with the Custom Pixel Bubble as Textarea -->
+        <form id="ngl-form" class="ngl-form">
+          <div class="bubble-input-wrapper">
+            <!-- Retro Pixel Bubble Image Frame -->
+            <img src="mga_imahe/bubble.webp" alt="Text input bubble" class="bubble-frame-img" draggable="false" />
+            
+            <!-- Real interactive Textarea overlaying inside the bubble -->
+            <div class="bubble-inner-content">
+              <textarea 
+                id="message-input" 
+                class="bubble-textarea" 
+                placeholder="send me anonymous messages..." 
+                maxlength="300"
+                rows="3"
+                required
+              ></textarea>
+              <div class="bubble-footer-row">
+                <span class="char-counter" id="char-counter">0 / 300</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anonymous Assurance Pill -->
+          <div class="anon-guarantee">
+            <svg class="lock-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span class="anon-text">anonymous messaging &bull; no IP saved</span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" id="send-btn">
+            <span class="btn-text">Send!</span>
+            <div class="btn-shine"></div>
+            <div class="spinner" id="btn-spinner"></div>
+          </button>
+        </form>
+
+        <!-- Social Share Bar -->
+        <div class="card-footer-actions">
+          <button class="share-link-btn" id="copy-link-btn">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span>Copy Toad's Link</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Quick Tips -->
+      <div class="footer-tip">
+        <span>Tip: Your identity is completely hidden. Speak your heart out!</span>
+      </div>
+
+    </section>
+
+    <!-- ================= SUCCESS CONFIRMATION MODAL / VIEW ================= -->
+    <div class="success-overlay" id="success-overlay">
+      <div class="success-card">
+        <div class="success-icon-wrap">
+          <img src="mga_imahe/pixel-toad.png" alt="Toad celebration" class="success-toad-img">
+        </div>
+        <h2 class="success-title">Sent to Toad!</h2>
+        <p class="success-desc">Your anonymous message was delivered straight to Peach's Castle vault!</p>
+        
+        <div class="success-actions">
+          <button class="action-btn primary-btn" id="send-another-btn">
+            <span>Send another</span>
+          </button>
+          <button class="action-btn secondary-btn" id="view-inbox-from-success">
+            <span>View Inbox</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= INBOX VIEW ================= -->
+    <section class="card-view" id="inbox-view">
+      <div class="inbox-container">
+        
+        <div class="inbox-header">
+          <div class="inbox-title-group">
+            <img src="mga_imahe/pixel-toad.png" alt="Toad Avatar" class="inbox-avatar">
+            <div>
+              <h2 class="inbox-title">Toad's Inbox</h2>
+              <p class="inbox-subtitle">Live anonymous messages received</p>
+            </div>
+          </div>
+          <div class="inbox-ctrl-group">
+            <button class="refresh-btn" id="refresh-inbox-btn" title="Refresh messages">
+              <svg id="refresh-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Connection Status Banner -->
+        <div class="db-status-banner" id="db-status-banner">
+          <div class="status-indicator" id="status-dot"></div>
+          <span id="db-status-text">Connecting to Supabase...</span>
+        </div>
+
+        <!-- Messages List -->
+        <div class="messages-list" id="messages-list">
+          <div class="loading-state">
+            <div class="loader-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <p>Gathering Toad's mail...</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= CREDITS MODAL ================= -->
+  <div class="modal-overlay" id="credits-modal">
+    <div class="modal-card credits-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <h3>About &amp; Credits</h3>
+        </div>
+        <button class="close-modal-btn" id="close-credits-modal">&times;</button>
+      </div>
+      <div class="modal-body credits-modal-body">
+        <div class="credits-avatar-wrap">
+          <img src="mga_imahe/pixel-toad.png" alt="Toad Mascot" class="credits-avatar-img">
+        </div>
+        <h2 class="credits-project-title">1A-nonymous</h2>
+        <p class="credits-project-subtitle">Anonymous Messaging Platform</p>
+        
+        <div class="credits-info-card">
+          <span class="credits-label">Created by:</span>
+          <h3 class="credits-creator-name">Harron Noah A. Melgar</h3>
+          <span class="credits-section-badge">from BSCS 1A</span>
+        </div>
+
+        <p class="credits-note">
+          An anonymous messaging website where you can share secret notes, honest thoughts, and questions safely. All messages are 100% private.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Custom Card Share Modal (NGL Instagram Story template export) -->
+  <div class="modal-overlay" id="share-card-modal">
+    <div class="modal-card story-card-modal">
+      <button class="close-modal-btn" id="close-story-modal">&times;</button>
+      <div class="story-preview-wrapper" id="story-card-preview">
+        <div class="story-card-bg">
+          <div class="story-toad-badge">
+            <img src="mga_imahe/pixel-toad.png" alt="Toad">
+            <span>@toad_1a</span>
+          </div>
+          <div class="story-prompt-pill" id="story-prompt">Send me anonymous messages!</div>
+          <div class="story-message-box">
+            <p id="story-text">Loading message...</p>
+          </div>
+          <div class="story-watermark">1A-nonymous &bull; ngl.toad</div>
+        </div>
+      </div>
+      <div class="story-actions">
+        <button class="action-btn primary-btn" id="copy-story-text-btn">Copy Text</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Music (Autoplay, Loop, Hidden - No Mini Player) -->
+  <audio id="bg-music" src="musica/SUPER%20MARIO%20RUN%20(OFFICIAL%20TRAP%20REMIX)%20-%20(320%20Kbps).mp3" loop preload="auto" style="display: none;"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
