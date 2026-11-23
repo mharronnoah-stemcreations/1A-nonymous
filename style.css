@@ -285,22 +285,55 @@ body {
 
 .toad-click-hint {
   position: absolute;
-  bottom: -2px;
-  background: rgba(255, 255, 255, 0.9);
+  top: 6px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--toad-red);
-  font-size: 0.65rem;
+  font-family: var(--font-fun);
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(231, 30, 40, 0.25);
   opacity: 0;
   transition: opacity 0.2s ease;
   pointer-events: none;
   white-space: nowrap;
+  z-index: 20;
+  animation: hintFollowToad 0.72s steps(1) infinite;
+}
+
+.toad-click-hint::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 4px 0 4px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
 }
 
 .toad-wrapper:hover .toad-click-hint {
   opacity: 1;
+}
+
+@keyframes hintFollowToad {
+  0% { transform: translate(-50%, 0px); }
+  8.33% { transform: translate(-50%, 3.5px); }
+  16.67% { transform: translate(-50%, 24px); }
+  25% { transform: translate(-50%, 30.5px); }
+  33.33% { transform: translate(-50%, 17px); }
+  41.67% { transform: translate(-50%, -13.5px); }
+  50% { transform: translate(-50%, -23.5px); }
+  58.33% { transform: translate(-50%, -27px); }
+  66.67% { transform: translate(-50%, -27px); }
+  75% { transform: translate(-50%, -23.5px); }
+  83.33% { transform: translate(-50%, -20px); }
+  91.67% { transform: translate(-50%, -13.5px); }
+  100% { transform: translate(-50%, 0px); }
 }
 
 /* Toad Speech Bubble with Comic Thought Balloon (Flipped Horizontally) */
@@ -1338,6 +1371,12 @@ body {
     width: 92px;
   }
   
+  .toad-click-hint {
+    animation-name: hintFollowToadMobile;
+    font-size: 0.62rem;
+    padding: 2px 7px;
+  }
+  
   .toad-speech-bubble {
     width: 180px;
     margin-left: -14px;
@@ -1356,4 +1395,20 @@ body {
     font-size: 1.15rem;
     padding: 13px 20px;
   }
+}
+
+@keyframes hintFollowToadMobile {
+  0% { transform: translate(-50%, 0px); }
+  8.33% { transform: translate(-50%, 3px); }
+  16.67% { transform: translate(-50%, 20px); }
+  25% { transform: translate(-50%, 26px); }
+  33.33% { transform: translate(-50%, 14px); }
+  41.67% { transform: translate(-50%, -11px); }
+  50% { transform: translate(-50%, -20px); }
+  58.33% { transform: translate(-50%, -23px); }
+  66.67% { transform: translate(-50%, -23px); }
+  75% { transform: translate(-50%, -20px); }
+  83.33% { transform: translate(-50%, -17px); }
+  91.67% { transform: translate(-50%, -11px); }
+  100% { transform: translate(-50%, 0px); }
 }
